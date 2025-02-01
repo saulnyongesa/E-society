@@ -1,0 +1,15 @@
+{% extends 'main.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+    <div class="card w-50 m-auto">
+        <div class="card-header">
+            <p class="text-center text-info">Password Reset Success</p>
+        </div>
+        <div class="card-body">
+            <p class="text-success text-center">Password reset successfully. You can proceed and login</p>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-primary w-25 m-auto" href="{% url 'signin-url' %}">Login</a>
+        </div>
+    </div>
+{% endblock %}

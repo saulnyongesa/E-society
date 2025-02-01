@@ -1,0 +1,112 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+         <div class="w-100 d-flex">
+            <h2>Complaints/Requests</h2>
+            <a  href="{% url 'complaint-add-url' %}" class="btn btn-success w-100 m-1 float-right"><i class="fas fa-plus"></i> New</a>
+        </div>
+        {% if complaints %}
+            <nav class="w-100 d-flex">
+                <ul class="list-unstyled d-flex m-auto">
+                    <li class="m-2">
+                        <button class="btn btn-success" id="unsolved-btn" onclick="unsolvedBtn()">Unsolved</button>
+                    </li>
+                    <li class="m-2">
+                        <button class="btn btn-link" id="solved-btn" onclick="solvedBtn()">Solved</button>
+                    </li>
+                </ul>
+            </nav>
+            <div class="complaint-list d-block" id="unsolved-complaint">
+                {% for complaint in complaints %}
+                    {% if not complaint.is_solved %}
+                        <div class="complaint m-3 p-3" style="background-color: #0c0c0c; border-radius: 20px">
+                            <p class="text-white">Sent Date: {{ complaint.date }}</p>
+                            <hr class="bg-white">
+                            <p   class="complaint-preview text-white">{{ complaint.description|truncatewords:10 }}</p>
+                            {% if complaint.description|wordcount > 10 %}
+                                <button class="show-more btn-link border-0 bg-transparent" onclick="showMore(this)" >Show More</button>
+                            {% endif %}
+                            <p class="complaint-full p-2 text-black-50" style="display: none; background-color: #a1a6aa; border-radius: 10px">{{ complaint.description }}</p>
+                            <a class="reply btn-link border-0 bg-transparent" href="{% url 'complaint-url' complaint.id %}">Reply</a>
+                        </div>
+                    {% else %}
+                        <p class="text-center text-dark w-100 p-5">No New Complaints/Requests so far!</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="complaint-list d-none" id="solved-complaint">
+                {% for complaint in complaints %}
+                    {% if complaint.is_solved %}
+                        <div class="complaint m-3 p-3" style="background-color: #0c0c0c; border-radius: 20px">
+                            <p class="text-white">Sent Date: {{ complaint.date }}</p>
+                            <hr class="bg-white">
+                            <p   class="complaint-preview text-white">{{ complaint.description|truncatewords:10 }}</p>
+                            {% if complaint.description|wordcount > 10 %}
+                                <a class="show-more btn-link border-0 bg-transparent" onclick="showMore(this)" >Show More</a>
+                            {% endif %}
+                            <p class="complaint-full p-2 text-black-50" style="display: none; background-color: #a1a6aa; border-radius: 10px">
+                                {{ complaint.description }}
+                            </p>
+                            <div class="w-100 text-white p-2" style="background-color: #696c6d; border-radius: 20px">
+                                {% for reply in replies %}
+                                    {% if reply %}
+                                        <span class="text-white font-weight-bold">Reply Date: {{ reply.date }}</span><br>
+                                        <hr class="bg-white">
+                                        <p>{{ reply.description }}</p>
+                                    {% endif %}
+                                     <a class="reply btn-link border-0 bg-transparent" href="{% url 'complaint-reply-edit-url' reply.id %}">Edit Reply</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-center text-dark w-100 p-5">No Complaints/Requests Solved so far!</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <p class="text-center text-dark w-100 p-5">No Complaints/Requests at The Moment!</p>
+        {% endif %}
+    </div>
+    <script>
+
+        solved_complaint = document.getElementById("solved-complaint");
+        unsolved_complaint = document.getElementById("unsolved-complaint");
+        const unsolved = document.getElementById("unsolved-btn");
+        const solved = document.getElementById("solved-btn");
+        function showMore(button) {
+            const complaintFull = button.nextElementSibling;
+            if (complaintFull.style.display === "none") {
+                complaintFull.style.display = "block";
+                button.textContent = "Show Less";
+            } else {
+                complaintFull.style.display = "none";
+                button.textContent = "Show More";
+            }
+        }
+        function unsolvedBtn(){
+            unsolved_complaint.classList.remove("d-none");
+            unsolved_complaint.classList.add("d-block");
+            solved_complaint.classList.remove("d-block");
+            solved_complaint.classList.add("d-none");
+            unsolved.classList.remove("btn-link");
+            unsolved.classList.add("btn-success")
+            solved.classList.remove("btn-success");
+            solved.classList.add("btn-link")
+
+        }
+        function solvedBtn(){
+            unsolved_complaint.classList.remove("d-block");
+            unsolved_complaint.classList.add("d-none");
+            solved_complaint.classList.remove("d-none");
+            solved_complaint.classList.add("d-block");
+            unsolved.classList.remove("btn-success");
+            unsolved.classList.add("btn-link")
+            solved.classList.remove("btn-link");
+            solved.classList.add("btn-success")
+        }
+
+    </script>
+{% endblock %}

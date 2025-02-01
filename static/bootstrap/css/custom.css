@@ -1,0 +1,17 @@
+.sign-in-form{
+    position: absolute;
+    width: 50vh;
+    height: fit-content;
+    left: 25vh;
+    top: 25vh;
+    background-color: rgba(0, 0, 0, 0.87);
+    box-shadow: 0 20px 60px black;
+}
+
+/*MESSAGES=======================================*/
+.error{
+    color: red;
+}
+.success{
+    color: green;
+}

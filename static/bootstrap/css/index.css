@@ -1,0 +1,49 @@
+ body, html {
+    height: 100%;
+    background-color: #28a745;
+  }
+  .main-container {
+    background-image: url('../../images/home.jpg'); /* Replace with your background image URL */
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
+  .content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  .btn-custom {
+    margin: 5px;
+    font-size: 1rem;
+    padding: 12px 30px;
+  }
+  .btn-register {
+    background-color: #28a745;
+    color: white;
+  }
+  .btn-login, .btn-signup {
+    background-color: #007bff;
+    color: white;
+  }
+    .btn-login:hover, .btn-signup:hover {
+        background-color: #0056b3;
+    }
+
+

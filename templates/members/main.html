@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Society Complaint/Request</title>
+    <!-- Bootstrap 4 CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/main.css' %}">
+</head>
+
+<body>
+
+    <!-- Main Container -->
+    <div class="d-block">
+            {#===============================Messages===================================#}
+            {% for message in messages %}
+                <p class="alert alert-dismissible alert-info text-center w-100 p-2">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong  {% if message.tags %} class="{{ message.tags }} "{% endif %}>
+                        {{ message }}
+                    </strong>
+                </p>
+            {% endfor %}
+            <!-- Page Content (Will be filled by Django template blocks) -->
+            {% block content %}
+            <!-- Content will be dynamically loaded here -->
+            {% endblock %}
+
+    </div>
+
+    <!-- Bootstrap 4 JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Script to display current date -->
+    <script>
+        const today = new Date();
+        const dateString = today.toLocaleDateString();
+        document.getElementById("current-date").textContent = dateString;
+    </script>
+</body>
+
+</html>

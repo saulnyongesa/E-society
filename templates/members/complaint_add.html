@@ -1,0 +1,14 @@
+{% extends "members/main.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+<h2 class="text-center">E-Society Complaint/Request Submission</h2>
+<form class="w-75 m-auto p-4" action="{% url 'complaint-add-url' %}" method="post" style="background-color: #0c0c0c">
+    {% csrf_token %}
+    <label for="member_email" class="w-100">
+        Email (Enter email you registered with in this society)<br>
+        <input class="form-control" type="email" name="email" minlength="">
+    </label>
+    {{form|crispy}}
+    <input class="btn-success w-50 p-2" type="submit" value="Submit">
+</form>
+{% endblock %}

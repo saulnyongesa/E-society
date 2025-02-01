@@ -1,0 +1,108 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="w-100 d-flex">
+            <h2>Events</h2>
+            <a  href="{% url 'event-add-url' %}" class="btn btn-success w-100 m-1 float-right"><i class="fas fa-plus"></i> New</a>
+        </div>
+        {% if events %}
+            <nav class="w-100 d-flex">
+                <ul class="list-unstyled d-flex m-auto">
+                    <li class="m-2">
+                        <button class="btn btn-success" id="unsolved-btn" onclick="unsolvedBtn()">Upcoming</button>
+                    </li>
+                    <li class="m-2">
+                        <button class="btn btn-link" id="solved-btn" onclick="solvedBtn()">Past</button>
+                    </li>
+                </ul>
+            </nav>
+            <div class="complaint-list d-block" id="unsolved-complaint">
+                {% for event in events %}
+                    {% if not event.is_done and not event.is_cancelled %}
+                        <div class="complaint m-3 p-3" style="background-color: #0c0c0c; border-radius: 20px">
+                            <p class="text-white">Event Date: {{ event.date }}</p>
+                            <p class="text-white">Event Name: {{ event.name }}</p>
+                            <hr class="bg-white">
+                            <p   class="complaint-preview text-white">{{ event.description|truncatewords:10 }}</p>
+                            {% if event.description|wordcount > 10 %}
+                                <button class="show-more btn-link border-0 bg-transparent" onclick="showMore(this)" >Show More</button>
+                            {% endif %}
+                            <p class="complaint-full p-2 text-black-50" style="display: none; background-color: #a1a6aa; border-radius: 10px">{{ event.description }}</p>
+                            <div class="d-flex">
+                                <a class="btn btn-primary m-1" href="{% url 'event-edit-url' event.id %}">Edit</a>
+                                <a class="btn btn-danger m-1" href="{% url 'event-cancel-url' event.id %}">Cancel</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-center text-dark w-100 p-5">No New Events, <a href="{% url 'event-add-url' %}">Create One</a>!</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="complaint-list d-none" id="solved-complaint">
+                {% for event in events %}
+                    {% if event.is_done or event.is_cancelled %}
+                        <div class="complaint m-3 p-3" style="background-color: #0c0c0c; border-radius: 20px">
+                            <p class="text-white">Event Date: {{ event.date }}</p>
+                            <p class="text-white">Event Name: {{ event.name }}</p>
+                            <hr class="bg-white">
+                            <p   class="complaint-preview text-white">{{ event.description|truncatewords:10 }}</p>
+                            {% if event.description|wordcount > 10 %}
+                                <button class="show-more btn-link border-0 bg-transparent" onclick="showMore(this)" >Show More</button>
+                            {% endif %}
+                            <p class="complaint-full p-2 text-black-50" style="display: none; background-color: #a1a6aa; border-radius: 10px">{{ event.description }}</p>
+                            <div class="d-flex">
+                                <a class="btn btn-danger m-1" href="{% url 'event-delete-url' event.id %}">Delete</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-center text-dark w-100 p-5">No Past Events, <a href="{% url 'event-add-url' %}">Create One</a>!</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <p class="text-center text-dark w-100 p-5">No Events at The Moment!</p>
+        {% endif %}
+    </div>
+    <script>
+
+        solved_complaint = document.getElementById("solved-complaint");
+        unsolved_complaint = document.getElementById("unsolved-complaint");
+        const unsolved = document.getElementById("unsolved-btn");
+        const solved = document.getElementById("solved-btn");
+        function showMore(button) {
+            const complaintFull = button.nextElementSibling;
+            if (complaintFull.style.display === "none") {
+                complaintFull.style.display = "block";
+                button.textContent = "Show Less";
+            } else {
+                complaintFull.style.display = "none";
+                button.textContent = "Show More";
+            }
+        }
+        function unsolvedBtn(){
+            unsolved_complaint.classList.remove("d-none");
+            unsolved_complaint.classList.add("d-block");
+            solved_complaint.classList.remove("d-block");
+            solved_complaint.classList.add("d-none");
+            unsolved.classList.remove("btn-link");
+            unsolved.classList.add("btn-success")
+            solved.classList.remove("btn-success");
+            solved.classList.add("btn-link")
+
+        }
+        function solvedBtn(){
+            unsolved_complaint.classList.remove("d-block");
+            unsolved_complaint.classList.add("d-none");
+            solved_complaint.classList.remove("d-none");
+            solved_complaint.classList.add("d-block");
+            unsolved.classList.remove("btn-success");
+            unsolved.classList.add("btn-link")
+            solved.classList.remove("btn-link");
+            solved.classList.add("btn-success")
+        }
+
+    </script>
+{% endblock %}

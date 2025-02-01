@@ -1,0 +1,36 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="member-card">
+    <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="member-photo">
+    <div class="member-details">
+        <h2>{{ member.name }}</h2>
+        <p>{{ member.position }}</p>
+        <p>{{ member.email }}</p>
+        <p>{{ member.phone }}</p>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+.member-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.member-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.member-details {
+    font-size: 16px;
+    color: #333;
+}
+</style></div>

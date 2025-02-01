@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+    <form class="card w-50 m-auto" method="post">
+        {% csrf_token %}
+        <div class="card-header">
+            <p class="text-center text-info">CHANGE PASSWORD</p>
+        </div>
+        <div class="card-body">
+            {{ form|crispy }}
+        </div>
+        <div class="card-footer d-flex">
+            <input class="w-25 m-auto btn btn-primary" type="submit" value="Save">
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+<h2 class="text-center">Event</h2>
+<form class="bg-secondary w-75 m-auto p-4" action="{% url 'event-add-url' %}" method="post">
+    {% csrf_token %}
+    {{form|crispy}}
+    <label for="date" class="w-100">
+        Date <sup>*</sup><br>
+        <input class="form-control" type="datetime-local" name="date">
+    </label>
+    <input class="btn-success w-50 p-2" type="submit" value="Save">
+</form>
+{% endblock %}

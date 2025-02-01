@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Society</title>
+    <!-- Bootstrap 4 CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/main.css' %}">
+</head>
+
+<body>
+
+<!-- Main Container -->
+<div class="main-container">
+    <!-- Sidebar (Left Navigation) -->
+    <div class="sidebar">
+        <h1 class="w-100 text-center text-white p-3">
+            E-Society
+        </h1>
+        <hr class="bg-white">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'dashboard-url' %}" class="btn text-left">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{% url 'members-url' %}" class="btn text-left">
+                <i class="fas fa-users"></i> Membership
+            </a>
+            <a href="{% url 'events-url' %}" class="btn text-left">
+                <i class="fas fa-calendar-alt"></i> Events
+            </a>
+            <a href="{% url 'complaints-url' %}" class="btn text-left">
+                <i class="fas fa-exclamation-circle"></i> Manage Complaints
+            </a>
+            <a href="#" class="btn text-left">
+                <i class="fas fa-bullhorn"></i> Announcements
+            </a>
+            <a href="#" class="btn text-left">
+                <i class="fas fa-money-bill-wave"></i> Manage Payments
+            </a>
+
+        {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="content" >
+        <!-- Top Navigation -->
+        <div class="top-nav mb-3">
+            <div class="society-name">
+                <span>{{ request.user.society.name }}</span>
+            </div>
+            {% if request.user.is_authenticated %}
+                <div>
+                    <span id="current-date"></span> |
+                    <span>
+                        <a href="{% url 'complaints-url' %}">
+                            <i class="fas fa-bell"></i>
+                            <sup class="text-success">
+                                {{ notification_count }}
+                            </sup>
+                        </a>
+                    </span> |
+                    <a href="{% url 'logout-url' %}" class="text-danger">Logout</a>
+
+                </div>
+            {% endif %}
+        </div>
+        {#===============================Messages===================================#}
+        {% for message in messages %}
+            <p class="alert alert-dismissible alert-info text-center w-100 p-2">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong  {% if message.tags %} class="{{ message.tags }} "{% endif %}>
+                    {{ message }}
+                </strong>
+            </p>
+        {% endfor %}
+        <!-- Page Content (Will be filled by Django template blocks) -->
+        {% block content %}
+            <!-- Content will be dynamically loaded here -->
+        {% endblock %}
+
+    </div>
+
+</div>
+
+<!-- Bootstrap 4 JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Script to display current date -->
+<script>
+    const today = new Date();
+    const dateString = today.toLocaleDateString();
+    document.getElementById("current-date").textContent = dateString;
+</script>
+</body>
+
+</html>

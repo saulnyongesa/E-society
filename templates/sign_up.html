@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - E-Society</title>
+  <!-- Bootstrap 4 CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 120vh;
+      background-color: #f0f0f0;
+    }
+    .signup-form {
+      background-color: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+    .signup-form h3 {
+      margin-bottom: 30px;
+      font-size: 1.6rem;
+      text-align: center;
+    }
+    .form-control {
+      margin-bottom: 20px;
+    }
+    .btn-custom {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+    }
+    .social-login-buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .social-login-buttons .btn {
+      width: 48%;
+      margin: 5px 1%;
+    }
+    .social-login-buttons .btn-apple {
+      background-color: #000;
+      color: white;
+    }
+    .social-login-buttons .btn-google {
+      background-color: #db4437;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="signup-form">
+      <h3>E-Society Registration</h3>
+      <!-- Sign-Up Form -->
+      <form action="{% url 'signup-url' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="text" class="form-control" id="society-name" name="society_name" placeholder="Society Name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="registration-certificate">Society Registration Certificate</label>
+          <input type="file" class="form-control" id="registration-certificate" name="registration_certificate" required>
+        </div>
+
+        <div class="form-group">
+          <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number" required>
+        </div>
+
+        <div class="form-group">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+        </div>
+
+        <div class="form-group">
+          <input type="password" class="form-control" id="confirm-password" name="confirm_password" placeholder="Confirm Password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-custom">Register</button>
+      </form>
+
+      <div class="social-login-buttons">
+        <p>or</p>
+        <a class="btn btn-apple" href="{% url 'signin-url' %}">Login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 4 JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

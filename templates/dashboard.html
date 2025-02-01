@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="container p-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Members</h5>
+                    <p class="card-text">Number of members: {{ user }}</p>
+                    <a href="{% url 'members-url' %}" class="btn btn-primary w-100 m-1"><i class="fas fa-eye"></i> View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Next Events</h5>
+                    <p class="card-text">Upcoming events: {{events_count}}</p>
+                    <a href="{% url 'events-url' %}" class="btn btn-primary w-100 m-1"><i class="fas fa-eye"></i> View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Complaints/Requests</h5>
+                    <p class="card-text">Current complaints/Requests: {{complaints}}</p>
+                    <a href="{% url 'complaints-url' %}" class="btn btn-primary w-100 m-1"><i class="fas fa-eye"></i> View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

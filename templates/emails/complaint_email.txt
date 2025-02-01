@@ -1,0 +1,16 @@
+Subject: Your Complaint Has Been Received
+
+Dear {{ user }},
+
+We have received your complaint and our team is reviewing it.
+
+Details of your complaint:
+--------------------------------------
+{{ complaint|truncatewords:40 }}
+--------------------------------------
+
+We appreciate your patience and will get back to you as soon as possible.
+
+Best regards,
+E-Society Support Team
+sanymtechs@gmail.com

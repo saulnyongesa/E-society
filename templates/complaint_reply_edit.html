@@ -1,0 +1,15 @@
+{% extends "main.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+    <h2 class="text-center">Complaint/Request Reply Edit</h2>
+    <div class="complaint-container m-3 p-3" style="background-color: #0c0c0c; border-radius: 20px">
+        <p class="text-white">From: {{ complaint.user.email }} Sent Date: {{ complaint.date }}</p>
+        <hr class="bg-white">
+        <p class="text-white">{{ complaint.description|truncatewords:20 }}</p>
+        <form action="{% url 'complaint-reply-edit-url' reply.id %}" method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <input class="btn-success w-50 p-2" type="submit" value="Save">
+        </form>
+    </div>
+{% endblock %}
