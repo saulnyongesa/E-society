@@ -1,3 +1,4 @@
+from datetime import timedelta, datetime
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -74,4 +75,19 @@ class ComplaintReply(models.Model):
     def __str__(self):
         return f"Reply to Complaint by {self.complaint.user.username} on {self.date}"
 
-
+class OTP(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    otp = models.PositiveIntegerField(null=True, unique=True)
+    is_used = models.BooleanField(default=False)
+    created_time = models.DateTimeField(null=True)
+    expire_time = models.DateTimeField(null=True)
+    def __str__(self):
+         return f"{self.otp}"
+     
+    def save(self, *args, **kwargs):
+        self.created_time = datetime.now()
+        if not self.created_time:
+            self.created_time = datetime.now()
+        if not self.expire_time:
+            self.expire_time = self.created_time + timedelta(minutes=5)
+        super().save(*args, **kwargs)

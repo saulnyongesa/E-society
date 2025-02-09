@@ -20,6 +20,7 @@ from django.urls.conf import include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from base import views
 from base.forms import PWDChangeView
 
 urlpatterns = [
@@ -39,6 +40,7 @@ urlpatterns += [
          name='password_reset_confirm'),
     path('reset_pwd_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='pwd/complete.html'),
          name='password_reset_complete'),
+    path('account/verify/<int:id>/', views.otp_verify, name='verify-url')
 ]
 
 if settings.DEBUG:

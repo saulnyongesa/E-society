@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from datetime import datetime
 from base.forms import *
@@ -8,11 +9,16 @@ from .emails import *
 from .models import *
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
+import random
 
 # Create your views here.
 
 def home(request):
     return render(request, 'index.html')
+
+def generate_otp():
+    return random.randint(100000, 999999)
+
 
 def signin(request):
     if request.user.is_authenticated:
@@ -23,8 +29,20 @@ def signin(request):
             password = request.POST.get('password')
             user = authenticate(request, email=email, password=password)
             if user is not None and user.is_staff:
-                login(request, user)
-                return redirect('dashboard-url')
+                otp = OTP.objects.create(
+                    user=user, 
+                    otp=generate_otp()
+                )
+                otp.save()
+                send_mail(
+                    "E-Society Login Verification",
+                    f"Your verification code is: {otp.otp}",
+                    "sanymtechs@gmail.com",
+                    [email],
+                    fail_silently=False,
+                )
+                messages.success(request, 'Check your email for OTP!')
+                return HttpResponseRedirect("/account/verify/" + str(user.id) + "/")
             else:
                 messages.info(request, 'Email or password is incorrect')
     return render(request, 'sign_in.html')
@@ -355,3 +373,26 @@ def complaint_add(request):
             return redirect('complaints-url')
 
     return render(request, 'members/complaint_add.html', {'form': form})
+
+def otp_verify(request, id):
+    user = User.objects.get(id=id)
+    if request.method == "POST":
+        otp_code = request.POST.get('otp_code')
+        try:
+            otp = OTP.objects.get(user=user, otp=otp_code)
+            if otp:
+                if user is not None and user.is_staff:
+                    login(request, user)
+                    otp.delete()
+                    messages.success(request, 'Welcome')
+                    return redirect('dashboard-url')
+
+        except OTP.DoesNotExist:
+            messages.error(request, "Inavalid otp")
+            return HttpResponseRedirect("/account/verify/" + str(user.id) + "/")
+    context = {
+        "user": user
+    }
+    return render(request, 'pwd/otp.html', context)
+
+                     
